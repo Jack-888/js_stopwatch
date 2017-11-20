@@ -9,13 +9,14 @@
 <script src="stopwatch.js"></script>
 
 <div class="container">
-    <button onClick="start()">Start Timer</button>
-    <button onClick="stop()">Stop Timer</button>
-    <button onClick="fixation()">Fixation Timer</button>
+    <button onClick="startPause()">Start/Pause Timer</button>
     <button onClick="reset()">Reset Timer</button>
+    <button onClick="fixation()">Fixation Timer</button>
+    <button onclick="clearFixation()">Clear Fixation</button>
     <div id="display">00:00:00.000</div>
 </div>
 
+<ul id="dynamic-list"></ul>
 
 </body>
 </html>
