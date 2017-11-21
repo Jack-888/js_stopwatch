@@ -1,0 +1,23 @@
+body {
+    font-family: sans-serif;
+    top: 50%;
+}
+
+.button {
+    width: 10%;
+    background-color: #4982C4;
+    color: white;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.container {
+    text-align: center;
+    top: 50%;
+}
+
+#display {
+    font-size: 500%;
+}
