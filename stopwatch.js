@@ -1,21 +1,19 @@
-function startPause() {
-    if (runing === false) {
-        if (timeStart === null) {
-            timeStart = new Date();
-        }
-
-        if (timeStop !== null) {
-            duration += (new Date() - timeStop);
-        }
-
-        started = setInterval(clockRunning, 10);
-        runing = true;
-
-    } else {
-        timeStop = new Date();
-        clearInterval(started);
-        runing = false;
+function start() {
+    if (timeStart === null) {
+        timeStart = new Date();
     }
+
+    if (timeStop !== null) {
+        duration += (new Date() - timeStop);
+    }
+
+    started = setInterval(clockRunning, 10);
+}
+
+function pause() {
+    timeStop = new Date();
+    clearInterval(started);
+    started = null;
 }
 
 function fixation() {
@@ -23,42 +21,40 @@ function fixation() {
         return null;
     }
 
-    var ul = document.getElementById("dynamic-list");
+    var fixationList = document.getElementById("fixation-list");
 
-    if (id_fixation <= 5) {
+    if (idFixationList <= 5) {
         var li = document.createElement("li");
-        li.setAttribute('id', id_fixation);
+        li.setAttribute('id', idFixationList);
         li.appendChild(document.createTextNode(fixationTime));
-        ul.appendChild(li);
-        ++id_fixation;
+        fixationList.appendChild(li);
+        ++idFixationList;
     } else {
-        console.log( id_fixation );
         document.getElementById("5").innerHTML = fixationTime;
     }
 }
 
 function clearFixation(){
-    var ul = document.getElementById("dynamic-list");
-    if (ul.children.length >= 1) {
-        ul.removeChild(ul.lastChild);
-        console.log( id_fixation );
-        --id_fixation;
+    var fixationList = document.getElementById("fixation-list");
+    if (fixationList.children.length >= 1) {
+        fixationList.removeChild(fixationList.lastChild);
+        --idFixationList;
     }
 }
 
 function reset() {
     clearInterval(started);
     timeStart = null;
-    started = null,
-    id_fixation = 1,
-    timeStop = null,
-    duration = 0,
-    fixationTime = null,
-    runing = false;
+    started = null;
+    idFixationList = 1;
+    timeStop = null;
+    duration = 0;
+    fixationTime = null;
 
-    var clearIdFixation = document.getElementById("dynamic-list");
-    while (clearIdFixation .firstChild) {
-        clearIdFixation .removeChild(clearIdFixation .firstChild);
+    var idClearFixation = document.getElementById("fixation-list");
+
+    while (idClearFixation.firstChild) {
+        idClearFixation.removeChild(idClearFixation.firstChild);
     }
 
     document.getElementById("display").innerHTML = "00:00:00.000";
@@ -73,22 +69,48 @@ function clockRunning() {
         sec = timePassed.getUTCSeconds(),
         ms = timePassed.getUTCMilliseconds();
 
-    document.getElementById("display").innerHTML =
+    fixationTime = htmlSendFormatting(hour, min, sec, ms);
+
+    return fixationTime;
+}
+
+function htmlSendFormatting(hour, min, sec, ms) {
+    return document.getElementById("display").innerHTML =
         (hour > 9 ? hour : "0" + hour) + ":" +
         (min > 9 ? min : "0" + min) + ":" +
         (sec > 9 ? sec : "0" + sec) + "." +
         (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
-    console.log( currentTime - timeStart  );
-
-    fixationTime = (hour + ':' + min + ':' + sec + ':' + ms);
-    return fixationTime;
 }
+
+function startPauseStopwatch() {
+    if (started === null) {
+        document.getElementById("startPause").value = "Pause";
+        // startPause.value = "Pause";
+        start();
+
+    } else {
+        document.getElementById("startPause").value = "Start";
+        //startPause.value = "Start";
+        pause();
+    }
+}
+
+var startPauseId = document.getElementById("startPause");
+startPauseId.addEventListener('click', startPauseStopwatch);
+
+var resetId = document.getElementById("reset");
+resetId.addEventListener('click', reset);
+
+var fixationId = document.getElementById("fixation");
+fixationId.addEventListener('click', fixation);
+
+var clearId = document.getElementById("clear");
+clearId.addEventListener('click', clearFixation);
 
 var timeStart = null,
     started = null,
-    id_fixation = 1,
+    idFixationList = 1,
     timeStop = null,
     duration = 0,
-    fixationTime = null,
-    runing = false;
+    fixationTime = null;
 

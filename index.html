@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>StopWatch</title>
+    <link rel="stylesheet" href="stopwatch.css">
 </head>
 <body>
 
-<script src="stopwatch.js"></script>
 
 <div class="container">
-    <button onClick="startPause()">Start/Pause Timer</button>
-    <button onClick="reset()">Reset Timer</button>
-    <button onClick="fixation()">Fixation Timer</button>
-    <button onclick="clearFixation()">Clear Fixation</button>
     <div id="display">00:00:00.000</div>
+
+    <input class="button" id="startPause" type="button" value="Start"/>
+    <input class="button" id="reset" type="button" value="Reset"/>
+    <input class="button" id="fixation" type="button" value="Fixation"/>
+    <input class="button" id="clear" type="button" value="Clear"/>
+
 </div>
 
-<ul id="dynamic-list"></ul>
+
+<div class="container">
+    <h2 id="fixation-list"></h2>
+</div>
+
+<script src="./stopwatch.js"></script>
 
 </body>
 </html>
