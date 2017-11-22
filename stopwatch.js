@@ -21,13 +21,11 @@ function fixation() {
         return null;
     }
 
-    var fixationList = document.getElementById("fixation-list");
-
     if (idFixationList <= 5) {
         var li = document.createElement("li");
         li.setAttribute('id', idFixationList);
         li.appendChild(document.createTextNode(fixationTime));
-        fixationList.appendChild(li);
+        fixationListHtmlId.appendChild(li);
         ++idFixationList;
     } else {
         document.getElementById("5").innerHTML = fixationTime;
@@ -35,9 +33,8 @@ function fixation() {
 }
 
 function clearFixation(){
-    var fixationList = document.getElementById("fixation-list");
-    if (fixationList.children.length >= 1) {
-        fixationList.removeChild(fixationList.lastChild);
+    if (fixationListHtmlId.children.length >= 1) {
+        fixationListHtmlId.removeChild(fixationListHtmlId.lastChild);
         --idFixationList;
     }
 }
@@ -51,13 +48,11 @@ function reset() {
     duration = 0;
     fixationTime = null;
 
-    var idClearFixation = document.getElementById("fixation-list");
-
-    while (idClearFixation.firstChild) {
-        idClearFixation.removeChild(idClearFixation.firstChild);
+    while (fixationListHtmlId.firstChild) {
+        fixationListHtmlId.removeChild(fixationListHtmlId.firstChild);
     }
 
-    document.getElementById("display").innerHTML = "00:00:00.000";
+    displayHtmlId.innerHTML = "00:00:00.000";
 }
 
 function clockRunning() {
@@ -75,7 +70,7 @@ function clockRunning() {
 }
 
 function htmlSendFormatting(hour, min, sec, ms) {
-    return document.getElementById("display").innerHTML =
+    return displayHtmlId.innerHTML =
         (hour > 9 ? hour : "0" + hour) + ":" +
         (min > 9 ? min : "0" + min) + ":" +
         (sec > 9 ? sec : "0" + sec) + "." +
@@ -84,12 +79,12 @@ function htmlSendFormatting(hour, min, sec, ms) {
 
 function startPauseStopwatch() {
     if (started === null) {
-        document.getElementById("startPause").value = "Pause";
+        startPauseHtmlId.value = "Pause";
         // startPause.value = "Pause";
         start();
 
     } else {
-        document.getElementById("startPause").value = "Start";
+        startPauseHtmlId.value = "Start";
         //startPause.value = "Start";
         pause();
     }
@@ -112,5 +107,9 @@ var timeStart = null,
     idFixationList = 1,
     timeStop = null,
     duration = 0,
-    fixationTime = null;
+    fixationTime = null,
+
+    fixationListHtmlId = document.getElementById("fixation-list"),
+    displayHtmlId = document.getElementById("display"),
+    startPauseHtmlId = document.getElementById("startPause");
 
