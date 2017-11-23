@@ -1,35 +1,39 @@
-function TimeStopwatch() {
-    var timeStart = null,
-        started = null,
-        idFixationList = 1,
-        timeStop = null,
-        duration = 0,
-        fixationTime = null,
+'use strict';
 
-        fixationListHtmlId = document.getElementById("fixation-list"),
-        displayHtmlId = document.getElementById("display"),
-        startPauseHtmlId = document.getElementById("startPause");
+let timeStart = null,
+    started = null,
+    idFixationList = 1,
+    timeStop = null,
+    duration = 0,
+    fixationTime = null;
 
-////////////// Public methods //////////////
+const fixationListHtmlId = document.getElementById("fixation-list"),
+    displayHtmlId = document.getElementById("display"),
+    startPauseHtmlId = document.getElementById("startPause");
 
-    this.startPauseStopwatch = function () {
+class TimeStopwatch {
+
+    ////////////// Public methods //////////////
+
+    startPauseStopwatch() {
+
         if (started === null) {
             startPauseHtmlId.value = "Pause";
-            start();
+            this._start();
 
         } else {
             startPauseHtmlId.value = "Start";
-            pause();
+            this._pause();
         }
-    };
+    }
 
-    this.fixation = function () {
+    fixation() {
         if (timeStart === null) {
             return null;
         }
 
         if (idFixationList <= 5) {
-            var li = document.createElement("li");
+            let li = document.createElement("li");
             li.setAttribute('id', idFixationList);
             li.appendChild(document.createTextNode(fixationTime));
             fixationListHtmlId.appendChild(li);
@@ -37,9 +41,9 @@ function TimeStopwatch() {
         } else {
             document.getElementById("5").innerHTML = fixationTime;
         }
-    };
+    }
 
-    this.reset = function () {
+    reset() {
         clearInterval(started);
         timeStart = null;
         started = null;
@@ -54,18 +58,18 @@ function TimeStopwatch() {
 
         startPauseHtmlId.value = "Start";
         displayHtmlId.innerHTML = "00:00:00.000";
-    };
+    }
 
-    this.clearFixation = function (){
+    clearFixation() {
         if (fixationListHtmlId.children.length >= 1) {
             fixationListHtmlId.removeChild(fixationListHtmlId.lastChild);
             --idFixationList;
         }
-    };
+    }
 
 ////////////// Private methods //////////////
 
-    function start() {
+    _start() {
         if (timeStart === null) {
             timeStart = new Date();
         }
@@ -74,17 +78,17 @@ function TimeStopwatch() {
             duration += (new Date() - timeStop);
         }
 
-        started = setInterval(clockRunning, 10);
+        started = setInterval(this._clockRunning.bind(this), 10);
     }
 
-    function pause() {
+    _pause() {
         timeStop = new Date();
         clearInterval(started);
         started = null;
     }
 
-    function clockRunning() {
-        var currentTime = new Date(),
+    _clockRunning() {
+        let currentTime = new Date(),
             timePassed = new Date(currentTime - timeStart -  duration),
 
             hour = timePassed.getUTCHours(),
@@ -92,30 +96,39 @@ function TimeStopwatch() {
             sec = timePassed.getUTCSeconds(),
             ms = timePassed.getUTCMilliseconds();
 
-        fixationTime = htmlSendFormatting(hour, min, sec, ms);
+        fixationTime = this._htmlSendFormatting(hour, min, sec, ms);
 
         return fixationTime;
     }
 
-    function htmlSendFormatting(hour, min, sec, ms) {
+    _htmlSendFormatting(hour, min, sec, ms) {
         return displayHtmlId.innerHTML =
             (hour > 9 ? hour : "0" + hour) + ":" +
             (min > 9 ? min : "0" + min) + ":" +
             (sec > 9 ? sec : "0" + sec) + "." +
             (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
     }
+
 }
 
-var stopwatch = new TimeStopwatch();
+const stopwatch = new TimeStopwatch();
 
-var startPauseId = document.getElementById("startPause");
-startPauseId.addEventListener('click', stopwatch.startPauseStopwatch);
+const startPauseId = document.getElementById("startPause");
+startPauseId.addEventListener('click', () => {
+    stopwatch.startPauseStopwatch()
+});
 
-var resetId = document.getElementById("reset");
-resetId.addEventListener('click', stopwatch.reset);
+const resetId = document.getElementById("reset");
+resetId.addEventListener('click', () => {
+    stopwatch.reset()
+});
 
-var fixationId = document.getElementById("fixation");
-fixationId.addEventListener('click', stopwatch.fixation);
+const fixationId = document.getElementById("fixation");
+fixationId.addEventListener('click', () => {
+    stopwatch.fixation()
+});
 
-var clearId = document.getElementById("clear");
-clearId.addEventListener('click', stopwatch.clearFixation);
+const clearId = document.getElementById("clear");
+clearId.addEventListener('click', () => {
+    stopwatch.clearFixation()
+});
