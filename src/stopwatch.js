@@ -7,9 +7,9 @@ let timeStart = null,
     duration = 0,
     fixationTime = null;
 
-const fixationListHtmlId = document.getElementById("fixation-list"),
-    displayHtmlId = document.getElementById("display"),
-    startPauseHtmlId = document.getElementById("startPause");
+const fixationListHtmlId = document.getElementById("fixation-list");
+const displayHtmlId = document.getElementById("display");
+const startPauseHtmlId = document.getElementById("startPause");
 
 class TimeStopwatch {
 
@@ -111,24 +111,4 @@ class TimeStopwatch {
 
 }
 
-const stopwatch = new TimeStopwatch();
-
-const startPauseId = document.getElementById("startPause");
-startPauseId.addEventListener('click', () => {
-    stopwatch.startPauseStopwatch()
-});
-
-const resetId = document.getElementById("reset");
-resetId.addEventListener('click', () => {
-    stopwatch.reset()
-});
-
-const fixationId = document.getElementById("fixation");
-fixationId.addEventListener('click', () => {
-    stopwatch.fixation()
-});
-
-const clearId = document.getElementById("clear");
-clearId.addEventListener('click', () => {
-    stopwatch.clearFixation()
-});
+export default TimeStopwatch;
